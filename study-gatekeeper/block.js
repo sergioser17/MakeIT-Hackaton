@@ -12,6 +12,8 @@ const roastText = document.getElementById('roastText');
 const errorText = document.getElementById('errorText');
 const retryBtn = document.getElementById('retryBtn');
 const tryAgainBtn = document.getElementById('tryAgainBtn');
+const quickPassBtn = document.getElementById('quickPassBtn');
+const quickPassLoadingBtn = document.getElementById('quickPassLoadingBtn');
 
 const params = new URLSearchParams(window.location.search);
 const targetUrl = params.get('target') || '';
@@ -191,7 +193,7 @@ async function evaluateAnswer() {
   }
 }
 
-async function handleCorrectAnswer() {
+function unlockForDuration(durationMs) {
   let domain = '';
   try {
     domain = new URL(targetUrl).hostname.replace(/^www\./, '');
@@ -205,12 +207,21 @@ async function handleCorrectAnswer() {
   chrome.runtime.sendMessage({
     type: 'WHITELIST_AND_REDIRECT',
     domain,
-    targetUrl
+    targetUrl,
+    durationMs
   }, (response) => {
     if (!response?.success) {
       window.location.href = targetUrl;
     }
   });
+}
+
+async function handleCorrectAnswer() {
+  unlockForDuration(5 * 60 * 1000);
+}
+
+function handleQuickPass() {
+  unlockForDuration(60 * 1000);
 }
 
 function handleWrongAnswer(roast) {
@@ -233,6 +244,14 @@ if (tryAgainBtn) {
     answerInput.value = '';
     answerInput.focus();
   });
+}
+
+if (quickPassBtn) {
+  quickPassBtn.addEventListener('click', handleQuickPass);
+}
+
+if (quickPassLoadingBtn) {
+  quickPassLoadingBtn.addEventListener('click', handleQuickPass);
 }
 
 retryBtn.addEventListener('click', () => {

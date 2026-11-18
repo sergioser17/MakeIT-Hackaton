@@ -93,6 +93,12 @@
         <span class="w-2.5 h-2.5 bg-rose-500 rounded-full animate-bounce" style="animation-delay: 150ms;"></span>
         <span class="w-2.5 h-2.5 bg-fuchsia-500 rounded-full animate-bounce" style="animation-delay: 300ms;"></span>
       </div>
+      <div class="mt-8 pt-4 border-t border-zinc-800/60">
+        <button id="quickPassLoadingBtn"
+          class="text-xs text-zinc-400 hover:text-pink-300 transition-colors underline-offset-4 hover:underline">
+          Need a quick look? 1-min doomscroll
+        </button>
+      </div>
     </div>
 
     <div id="questionState" class="glass rounded-3xl p-9 hidden">
@@ -112,6 +118,17 @@
         <button id="submitBtn"
           class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-pink-600 via-rose-600 to-pink-500 hover:from-pink-500 hover:to-rose-500 text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-pink-600/30 active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed">
           Submit Answer
+        </button>
+
+        <div class="relative flex py-1 items-center">
+          <div class="flex-grow border-t border-zinc-800"></div>
+          <span class="flex-shrink mx-3 text-[10px] uppercase tracking-wider text-zinc-500 font-semibold">or</span>
+          <div class="flex-grow border-t border-zinc-800"></div>
+        </div>
+
+        <button id="quickPassBtn" type="button"
+          class="w-full py-3 rounded-2xl bg-zinc-900/90 hover:bg-zinc-800 active:bg-zinc-700 text-pink-300 font-medium text-xs transition-all duration-150 border border-pink-500/20 hover:border-pink-500/40">
+          Quick Pass (1 min doomscroll)
         </button>
       </div>
 

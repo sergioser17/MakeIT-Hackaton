@@ -46,7 +46,7 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'WHITELIST_AND_REDIRECT') {
-    const { domain, targetUrl } = message;
+    const { domain, targetUrl, durationMs } = message;
     const tabId = sender.tab?.id;
 
     if (!domain || !targetUrl || !tabId) {
@@ -54,7 +54,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       return;
     }
 
-    const expiry = Date.now() + WHITELIST_DURATION_MS;
+    const expiry = Date.now() + (durationMs || WHITELIST_DURATION_MS);
     whitelist[domain] = expiry;
 
     chrome.storage.local.set({ whitelist }, () => {
