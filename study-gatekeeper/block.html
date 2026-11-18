@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Gatekeeper</title>
+  <link rel="stylesheet" href="tailwind.css">
+  <style>
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      10%,
+      30%,
+      50%,
+      70%,
+      90% {
+        transform: translateX(-6px);
+      }
+
+      20%,
+      40%,
+      60%,
+      80% {
+        transform: translateX(6px);
+      }
+    }
+
+    .shake {
+      animation: shake 0.6s ease-in-out;
+    }
+
+    .glass {
+      background: rgba(18, 18, 26, 0.75);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(244, 114, 182, 0.18);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(236, 72, 153, 0.08);
+    }
+  </style>
+</head>
+
+<body
+  class="bg-zinc-950 min-h-screen flex items-center justify-center p-6 relative overflow-hidden font-sans text-zinc-100 selection:bg-pink-500 selection:text-white">
+
+  <div
+    class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-pink-600/15 rounded-full blur-[120px] pointer-events-none">
+  </div>
+  <div
+    class="absolute bottom-10 right-10 w-[450px] h-[450px] bg-rose-500/10 rounded-full blur-[100px] pointer-events-none">
+  </div>
+  <div
+    class="absolute top-10 left-10 w-[350px] h-[350px] bg-fuchsia-600/10 rounded-full blur-[100px] pointer-events-none">
+  </div>
+
+  <div class="relative z-10 w-full max-w-lg">
+
+    <div id="loadingState" class="glass rounded-3xl p-10 text-center">
+      <div class="float mb-5">
+        <div
+          class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-pink-500/20 to-rose-400/20 border border-pink-500/30 flex items-center justify-center shadow-lg shadow-pink-500/20">
+          <div class="w-4 h-4 rounded-full bg-pink-500 animate-ping"></div>
+        </div>
+      </div>
+      <h1
+        class="text-2xl font-bold bg-gradient-to-r from-pink-300 via-rose-200 to-fuchsia-300 bg-clip-text text-transparent mb-2">
+        Distraction Blocked
+      </h1>
+      <p class="text-zinc-400 text-sm mb-2">Generating challenge question...</p>
+      <p id="loadingStatus" class="text-pink-400/80 text-xs mb-6 font-mono"></p>
+      <div class="flex justify-center gap-2">
+        <span class="w-2.5 h-2.5 bg-pink-500 rounded-full animate-bounce" style="animation-delay: 0ms;"></span>
+        <span class="w-2.5 h-2.5 bg-rose-500 rounded-full animate-bounce" style="animation-delay: 150ms;"></span>
+        <span class="w-2.5 h-2.5 bg-fuchsia-500 rounded-full animate-bounce" style="animation-delay: 300ms;"></span>
+      </div>
+    </div>
+
+    <div id="questionState" class="glass rounded-3xl p-9 hidden">
+      <div class="text-center mb-6">
+        <h1 class="text-2xl font-bold text-white">Answer to Unlock</h1>
+        <p class="text-xs text-zinc-400 mt-1">Demonstrate your understanding from the notes</p>
+      </div>
+
+      <div class="bg-zinc-900/80 rounded-2xl p-5 mb-6 border border-pink-500/15 shadow-inner">
+        <p id="questionText" class="text-zinc-200 text-sm leading-relaxed font-medium"></p>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <input id="answerInput" type="text" placeholder="Type your answer..."
+          class="w-full rounded-2xl border border-zinc-700 bg-zinc-900/90 text-sm text-zinc-200 p-4 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500/50 transition-all shadow-inner"
+          autocomplete="off" />
+        <button id="submitBtn"
+          class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-pink-600 via-rose-600 to-pink-500 hover:from-pink-500 hover:to-rose-500 text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-pink-600/30 active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed">
+          Submit Answer
+        </button>
+      </div>
+
+      <div id="evaluatingSpinner" class="hidden mt-4 text-center">
+        <p class="text-xs text-pink-400 animate-pulse font-medium">Evaluating your answer...</p>
+      </div>
+    </div>
+
+    <div id="failState" class="glass rounded-3xl p-8 text-center border border-rose-500/30 hidden">
+      <div class="flex flex-col items-center justify-center">
+        <div class="w-full flex justify-center mb-5">
+          <img src="https://media1.tenor.com/m/1Z3CkhWaWbMAAAAC/cat-catmeme.gif" alt="Failure"
+            class="rounded-2xl max-h-[280px] w-auto mx-auto object-contain shadow-2xl shadow-rose-950/60" />
+        </div>
+        <h2 id="roastText" class="text-rose-400 text-xl font-black uppercase tracking-wide leading-snug mb-6">
+          WROOOONGG! BACK TO LEARNING!!
+        </h2>
+        <button id="tryAgainBtn"
+          class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-pink-600 via-rose-600 to-pink-500 hover:from-pink-500 hover:to-rose-500 text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-pink-600/30 active:scale-[0.99]">
+          Try Again
+        </button>
+      </div>
+    </div>
+
+    <div id="errorState" class="glass rounded-3xl p-10 text-center hidden">
+      <div
+        class="w-12 h-12 mx-auto rounded-full bg-rose-500/20 border border-rose-500/40 flex items-center justify-center mb-4">
+        <div class="w-2.5 h-2.5 rounded-full bg-rose-500"></div>
+      </div>
+      <h2 class="text-xl font-bold text-rose-400 mb-2">Something Went Wrong</h2>
+      <p id="errorText" class="text-zinc-400 text-sm mb-6"></p>
+      <button id="retryBtn"
+        class="px-6 py-3 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-pink-300 border border-pink-500/30 hover:border-pink-500/60 text-sm font-semibold transition-all">
+        Retry
+      </button>
+    </div>
+
+  </div>
+
+  <script src="config.js"></script>
+  <script src="block.js"></script>
+</body>
+
+</html>

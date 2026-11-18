@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Study Gatekeeper",
+  "version": "1.0.0",
+  "description": "Block distraction sites during study sessions. Answer AI-generated questions to earn 5 minutes of break time.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "webNavigation",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["block.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Study Gatekeeper</title>
+  <link rel="stylesheet" href="tailwind.css">
+  <style>
+    body { width: 380px; min-height: 440px; }
+  </style>
+</head>
+<body class="bg-zinc-950 text-zinc-100 font-sans antialiased selection:bg-pink-500 selection:text-white">
+  <div class="p-5 flex flex-col gap-5">
+
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight bg-gradient-to-r from-pink-400 via-rose-300 to-fuchsia-400 bg-clip-text text-transparent">
+          Study Gatekeeper
+        </h1>
+        <p class="text-xs text-zinc-400">Distraction blocker</p>
+      </div>
+      <span class="h-2 w-2 rounded-full bg-pink-500 shadow-lg shadow-pink-500/50"></span>
+    </div>
+
+    <div id="setupView" class="flex flex-col gap-4">
+      <div>
+        <label for="studyMaterial" class="block text-xs font-semibold uppercase tracking-wider text-pink-300/80 mb-2">
+          Study Material
+        </label>
+        <textarea
+          id="studyMaterial"
+          rows="9"
+          placeholder="Paste your notes, textbook excerpts, or lecture content here..."
+          class="w-full rounded-2xl border border-zinc-800 bg-zinc-900/90 text-sm text-zinc-200 p-3.5 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-pink-500/60 focus:border-pink-500/40 resize-none transition-all shadow-inner"
+        ></textarea>
+        <p class="text-xs text-zinc-500 mt-1.5">You must answer questions from this text to unlock sites.</p>
+      </div>
+
+      <div>
+        <p class="text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wider">Blocked Sites</p>
+        <div class="flex flex-wrap gap-1.5">
+          <span class="px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-300 text-xs font-medium border border-pink-500/20">YouTube</span>
+          <span class="px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-300 text-xs font-medium border border-pink-500/20">Instagram</span>
+          <span class="px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-300 text-xs font-medium border border-pink-500/20">Facebook</span>
+          <span class="px-2.5 py-1 rounded-full bg-pink-500/10 text-pink-300 text-xs font-medium border border-pink-500/20">Reddit</span>
+        </div>
+      </div>
+
+      <button
+        id="startBtn"
+        class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-pink-600 via-rose-600 to-pink-500 hover:from-pink-500 hover:to-rose-500 text-white font-semibold text-sm transition-all duration-200 shadow-lg shadow-pink-600/30 active:scale-[0.99]"
+      >
+        Start Focus Mode
+      </button>
+      <p id="setupError" class="text-xs text-rose-400 text-center hidden font-medium"></p>
+    </div>
+
+    <div id="activeView" class="hidden flex flex-col gap-4 items-center text-center">
+      <div class="relative mt-2">
+        <div class="w-20 h-20 rounded-full bg-pink-500/10 border border-pink-500/30 flex items-center justify-center shadow-lg shadow-pink-500/10">
+          <div class="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center">
+            <div class="w-3.5 h-3.5 rounded-full bg-pink-500 animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-pink-300">Focus Mode Active</h2>
+        <p class="text-xs text-zinc-400 mt-1">Distraction sites are locked.</p>
+      </div>
+      <div class="w-full p-3.5 rounded-2xl bg-zinc-900/80 border border-zinc-800 text-left">
+        <p class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">Active Material</p>
+        <p id="materialPreview" class="text-xs text-zinc-300 mt-1 truncate font-mono"></p>
+      </div>
+      <button
+        id="stopBtn"
+        class="w-full py-3.5 rounded-2xl bg-zinc-900 hover:bg-zinc-800 active:bg-zinc-700 text-pink-300 font-semibold text-sm transition-all border border-pink-500/20 hover:border-pink-500/40"
+      >
+        End Focus Session
+      </button>
+    </div>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
